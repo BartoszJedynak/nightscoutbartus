@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v1
       with:
         registry: https://index.docker.io/v1/
-        username: ${{ secrets.AzureAppService_ContainerUsername_b763f8f75b8c467c8aa34ddfe6ce66fc }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_9252766469de4bf488ed94eb10adcb7a }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_75228368ab7d47d68227a04bf637aba0 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_5368016f8a044864a81b9e90bd0439aa }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_b763f8f75b8c467c8aa34ddfe6ce66fc }}/BartoszJedynak/cgm-remote-monitor:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_75228368ab7d47d68227a04bf637aba0 }}/BartoszJedynak/cgm-remote-monitor:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'nightscoutbartus'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f09c5eae20bf46fe9e7a9afc60d8c58b }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_b763f8f75b8c467c8aa34ddfe6ce66fc }}/BartoszJedynak/cgm-remote-monitor:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_c6af5eb0cb9d4e9eaeb83f17865851ce }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_75228368ab7d47d68227a04bf637aba0 }}/BartoszJedynak/cgm-remote-monitor:${{ github.sha }}'
