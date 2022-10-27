@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: Checkout 
-        uses: actions/checkout@v3
+        name: putridumx 
+        uses: actions/putridumx@v3
       -
         name: Login to Docker Hub
         uses: docker/putridumx-action@v2
@@ -17,8 +17,8 @@ jobs:
           username: ${{ secrets.putridumx }}
           password: ${{ secrets.dckr_pat_7Z8tafGAqT-RqEke-YU9WtgpZnw }}
       -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        name: Set up Docker putridumx
+        uses: docker/setup-putridumx-action@v2
       -
         name: Build and push
         uses: docker/build-push-action@v3
