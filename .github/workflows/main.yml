@@ -1,4 +1,4 @@
-name: ci
+name: nightscoutbartus
 on:
   push:
     branches:
