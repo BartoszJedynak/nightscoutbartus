@@ -28,11 +28,11 @@ jobs:
       -
         name: Login to ghcr
         if: github.event_name != 'pull_request'
-        uses: docker/putridumx-action@v1
+        uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.BartoszJedynak }}
-          password: ${{ secrets.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 }}
+          password: ${{ secrets.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 }}
       -
         name: Build and push
         id: docker_build
