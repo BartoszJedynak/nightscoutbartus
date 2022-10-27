@@ -16,15 +16,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+    - name: nightscoutbartus
+      uses: docker/nightscoutbartus-action@v1
 
-    - name: Log in to registry
+    - name: nightscoutbartus
       uses: docker/putridumx-action@v1
       with:
         registry: https://index.docker.io/v1/
-        username: ${{ secrets.AzureAppService_ContainerUsername_8f6c6ffb6f564b39a98df393119b7921 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_674919ed37324d3ab61bcff493eb33d8 }}
+        username: ${{ secrets.putridumx }}
+        password: ${{ secrets.dckr_pat_7Z8tafGAqT-RqEke-YU9WtgpZnw }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v2
