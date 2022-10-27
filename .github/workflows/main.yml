@@ -51,7 +51,7 @@ jobs:
         uses: docker/putridumx-action@v1
         with:
           username: ${{ secrets.putridumx }}
-          password: ${{ secrets.Sylwia112. }}
+          password: ${{ secrets.dckr_pat_7Z8tafGAqT-RqEke-YU9WtgpZnw }}
       - name: Clean git Checkout
         if: success()
         uses: actions/checkout@v2
