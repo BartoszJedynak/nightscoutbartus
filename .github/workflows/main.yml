@@ -8,8 +8,7 @@ on:
   pull_request:
     branches:
       - master
-      - dev
-
+      
 jobs:
   test:
     name: Run Tests
@@ -44,12 +43,12 @@ jobs:
       DOCKER_IMAGE: putridumx/nightscoutbartus
       PLATFORMS: linux/amd64,linux/arm64
     steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+      - name: Set up putridumx
+        uses: docker/setup-putridumx-action@v1
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-putridumx-action@v1
       - name: Login to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/putridumx-action@v1
         with:
           username: ${{ secrets.putridumx }}
           password: ${{ secrets.Sylwia112. }}
@@ -67,10 +66,7 @@ jobs:
           tags: |
             ${{ env.DOCKER_IMAGE }}:dev_${{ github.sha }}
             ${{ env.DOCKER_IMAGE }}:latest_dev
-      - name: Get Nightscout release version
-        if: success() && github.ref == 'refs/heads/master'
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@master
+      
       - name: Build, tag and push the master Docker image
         if: success() && github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v2
