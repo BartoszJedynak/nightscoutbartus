@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: putridumx 
+        name: putridumx
         uses: actions/putridumx@v3
       -
-        name: Login to Docker Hub
+        name: putridumx
         uses: docker/putridumx@v2
         with:
           username: ${{ secrets.putridumx }}
