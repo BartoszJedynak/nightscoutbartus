@@ -17,13 +17,13 @@ jobs:
           username: ${{ secrets.putridumx }}
           password: ${{ secrets.dckr_pat_7Z8tafGAqT-RqEke-YU9WtgpZnw }}
       -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      -
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./
           file: ./Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets.putridumx }}/nightscoutbartus:latest
+          cache-from: type=registry,ref=${{ secrets.putridumx }}/simplewhale:buildcache
+          cache-to: type=registry,ref=${{ secrets.putridumx }}/nightscoutbartus:buildcache,mode=max
