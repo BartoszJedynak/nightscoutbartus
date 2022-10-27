@@ -1,51 +1,50 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy container app to Azure Web App - nightscoutbartus
+name: CI to GHCR 
 
 on:
   push:
-    branches:
-      - master
-  workflow_dispatch:
+    branches: [ master ]
 
 jobs:
+
   build:
-    runs-on: 'ubuntu-latest'
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: nightscoutbartus
-      uses: docker/nightscoutbartus-action@v1
-
-    - name: nightscoutbartus
-      uses: docker/putridumx-action@v1
-      with:
-        registry: https://index.docker.io/v1/
-        username: ${{ secrets.putridumx }}
-        password: ${{ secrets.dckr_pat_7Z8tafGAqT-RqEke-YU9WtgpZnw }}
-
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_8f6c6ffb6f564b39a98df393119b7921 }}/nightscout/cgm-remote-monitor:${{ github.sha }}
-        file: ./Dockerfile
-
-  deploy:
     runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
     steps:
-    - name: Deploy to Azure Web App
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'nightscoutbartus'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_44dafa7e796849bf9550b7d0eb180fab }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_8f6c6ffb6f564b39a98df393119b7921 }}/nightscout/cgm-remote-monitor:${{ github.sha }}'
+      - 
+        name: Checkout
+        uses: actions/checkout@v2
+      -       
+        name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+      -     
+        name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+  
+      -
+        name: Login to ghcr
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.BartoszJedynak }}
+          password: ${{ secrets.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 }}
+      -
+        name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./ 
+          file: ./Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ghcr.io/BartoszJedynak/nightscoutbartus:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+      -
+        name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
